@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace P3DAHRSBroadcast
+namespace P3DEFBBroadcast
 {
     public class BroadcastProcess
     {

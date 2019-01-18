@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace P3DAHRSBroadcast
+namespace P3DEFBBroadcast
 {
     public partial class MainForm : Form
     {

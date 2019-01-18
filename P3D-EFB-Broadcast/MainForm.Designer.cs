@@ -1,4 +1,4 @@
-namespace P3DAHRSBroadcast
+namespace P3DEFBBroadcast
 {
     partial class MainForm
     {

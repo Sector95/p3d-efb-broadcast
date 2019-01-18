@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System;
 
-namespace P3DAHRSBroadcast
+namespace P3DEFBBroadcast
 {
     class SimConnectInterface
     {

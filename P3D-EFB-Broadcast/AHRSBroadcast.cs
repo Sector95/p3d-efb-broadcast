@@ -2,7 +2,7 @@
 using System.Net.Sockets;
 using System.Text;
 
-namespace P3DAHRSBroadcast
+namespace P3DEFBBroadcast
 {
     class AHRSBroadcast
     {

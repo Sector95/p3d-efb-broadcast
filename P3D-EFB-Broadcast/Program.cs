@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace P3DAHRSBroadcast
+namespace P3DEFBBroadcast
 {
     static class Program
     {
