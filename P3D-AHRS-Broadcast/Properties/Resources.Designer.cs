@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace P3D_AHRS_Broadcast.Properties
+namespace P3DAHRSBroadcast.Properties
 {
 
 

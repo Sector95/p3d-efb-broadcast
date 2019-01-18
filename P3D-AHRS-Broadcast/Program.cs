@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace P3D_AHRS_Broadcast
+namespace P3DAHRSBroadcast
 {
     static class Program
     {
@@ -16,7 +13,7 @@ namespace P3D_AHRS_Broadcast
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new MainForm());
         }
     }
 }
