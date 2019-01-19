@@ -1,45 +1,70 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace P3DEFBBroadcast
 {
     public class BroadcastProcess
     {
-        private SimConnectInterface simConnect = null;
-        private AHRSBroadcast ahrsBroadcast = null;
-        private double broadcastRateSeconds = 1.0d;
-        private DateTime lastBroadcast = DateTime.UtcNow;
+        private SimConnectInterface simConnect;
+        private EFBBroadcast efbBroadcast;
+        private TickRates tickRates;
+        private LastRequest lastRequest;
 
-        private struct AircraftData
+        // Delta in seconds between data requests.
+        public struct TickRates
         {
-            public double latitude;
-            public double longitude;
-            public double altitude;
-            public double track;
-            public double speed;
+            public float gps;
+            public float traffic;
+            public float attitude;
         }
-        private AircraftData aircraftData;
 
-        public BroadcastProcess()
+        private struct LastRequest
         {
+            public DateTime gps;
+            public DateTime traffic;
+            public DateTime attitude;
+        }
+
+        public BroadcastProcess(TickRates tickRates)
+        {
+            this.tickRates = tickRates;
+            this.lastRequest = new LastRequest
+            {
+                gps = DateTime.UtcNow,
+                traffic = DateTime.UtcNow,
+                attitude = DateTime.UtcNow
+            };
+
             simConnect = new SimConnectInterface(OnConnectHandler, OnDisconnectHandler, OnExceptionHandler);
             simConnect.Connect();
-            simConnect.InitAircraftDataRequest(OnRecieveAircraftData);
+            simConnect.InitDataRequest(OnRecieveAircraftData, OnRecieveTrafficData, OnRecieveAttitudeData);
 
-            ahrsBroadcast = new AHRSBroadcast();
+            efbBroadcast = new EFBBroadcast();
         }
 
         public void Tick()
         {
-            simConnect.RequestAircraftData();
+            DateTime now = DateTime.UtcNow;
+
+            if ((now - lastRequest.gps).TotalSeconds >= tickRates.gps)
+            {
+                lastRequest.gps = now;
+                simConnect.RequestAircraftData();
+            }
+
+            if ((now - lastRequest.traffic).TotalSeconds >= tickRates.traffic)
+            {
+                lastRequest.traffic = now;
+                simConnect.RequestTrafficData();
+            }
+
+            if ((now - lastRequest.attitude).TotalSeconds >= tickRates.attitude)
+            {
+                lastRequest.attitude = now;
+                simConnect.RequestAttitudeData();
+            }
 
             simConnect.CheckForMessages();
-            TimeSpan delta = DateTime.UtcNow - lastBroadcast;
-
-            if (delta.TotalSeconds > broadcastRateSeconds)
-            {
-                lastBroadcast = DateTime.UtcNow;
-                ahrsBroadcast.BroadcastAircraftData(aircraftData.latitude, aircraftData.longitude, aircraftData.altitude, aircraftData.track, aircraftData.speed);
-            }
         }
 
         public void Terminate()
@@ -64,13 +89,54 @@ namespace P3DEFBBroadcast
 
         private void OnRecieveAircraftData(SimConnectInterface.AircraftData aircraftData)
         {
-            double vector_degrees = (180 / Math.PI) * aircraftData.track;
+            EFBBroadcast.AircraftData efbAircraftData = new EFBBroadcast.AircraftData
+            {
+                latitude = aircraftData.latitude,
+                longitude = aircraftData.longitude,
+                altitude = aircraftData.altitude,
+                groundTrack = RadiansToDegrees(aircraftData.groundTrack),
+                groundSpeed = aircraftData.groundSpeed
+            };
 
-            this.aircraftData.latitude = aircraftData.latitude;
-            this.aircraftData.longitude = aircraftData.longitude;
-            this.aircraftData.altitude = aircraftData.altitude;
-            this.aircraftData.track = vector_degrees;
-            this.aircraftData.speed = aircraftData.speed;
+            efbBroadcast.BroadcastAircraftData(efbAircraftData);
+        }
+
+        private void OnRecieveAttitudeData(SimConnectInterface.AttitudeData attitudeData)
+        {
+            EFBBroadcast.AttitudeData efbAttitudeData = new EFBBroadcast.AttitudeData
+            {
+                trueHeading = RadiansToDegrees(attitudeData.trueHeading),
+                pitch = RadiansToDegrees(attitudeData.pitch) * -1,
+                roll = RadiansToDegrees(attitudeData.roll) * -1,
+            };
+
+            efbBroadcast.BroadcastAttitudeData(efbAttitudeData);
+        }
+
+        private void OnRecieveTrafficData(SimConnectInterface.TrafficData trafficData)
+        {
+            if (trafficData.isUser == 1 || trafficData.onGround == 1) { return; }
+
+            EFBBroadcast.TrafficData efbTrafficData = new EFBBroadcast.TrafficData
+            {
+                icaoAddress = 123,
+                longitude = trafficData.longitude,
+                latitude = trafficData.latitude,
+                altitude = trafficData.altitude,
+                // Feet/second to feet/minute conversion.
+                verticalSpeed = trafficData.verticalSpeed / 60,
+                airborne = trafficData.onGround,
+                groundTrack = RadiansToDegrees(trafficData.track),
+                groundSpeed = trafficData.groundSpeed,
+                callsign = trafficData.id
+            };
+
+            efbBroadcast.BroadcastTrafficData(efbTrafficData);
+        }
+
+        private double RadiansToDegrees(double radians)
+        {
+            return (180 / Math.PI) * radians;
         }
     }
 }
