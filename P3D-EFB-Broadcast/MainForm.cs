@@ -40,6 +40,7 @@ namespace P3DEFBBroadcast
             };
             ThreadStart threadStart = new ThreadStart(() => BroadcastThread(this.context, ProcessStatus, tickRates));
             broadcastThread = new Thread(threadStart);
+            broadcastThread.IsBackground = true;
             broadcastThread.Start();
             connectButton.Text = "Disconnect";
         }

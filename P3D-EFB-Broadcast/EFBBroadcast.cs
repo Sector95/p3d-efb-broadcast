@@ -55,20 +55,20 @@ namespace P3DEFBBroadcast
 
         public void BroadcastAircraftData(AircraftData aircraftData)
         {
-            string dataString = $"XGPSPrepar3D,{aircraftData.longitude:N6},{aircraftData.latitude:N6},{aircraftData.altitude:N4},{aircraftData.groundTrack:N4},{aircraftData.groundSpeed:N4}";
+            string dataString = $"XGPSPrepar3D,{aircraftData.longitude:F6},{aircraftData.latitude:F6},{aircraftData.altitude:F4},{aircraftData.groundTrack:F4},{aircraftData.groundSpeed:F4}";
             SendData(dataString);
         }
 
         public void BroadcastTrafficData(TrafficData trafficData)
         {
             int airborneFlag = trafficData.airborne >= 1 ? 1 : 0;
-            string dataString = $"XTRAFFICPrepar3D,{trafficData.icaoAddress},{trafficData.latitude:N3},{trafficData.longitude:N3},{trafficData.altitude:N1},{trafficData.verticalSpeed:N1},{airborneFlag},{trafficData.groundTrack:N1},{trafficData.groundSpeed:N1},{trafficData.callsign}";
+            string dataString = $"XTRAFFICPrepar3D,{trafficData.icaoAddress},{trafficData.latitude:F3},{trafficData.longitude:F3},{trafficData.altitude:F1},{trafficData.verticalSpeed:F1},{airborneFlag},{trafficData.groundTrack:F1},{trafficData.groundSpeed:F1},{trafficData.callsign}";
             SendData(dataString);
         }
 
         public void BroadcastAttitudeData(AttitudeData attitudeData)
         {
-            string dataString = $"XATTPrepar3D,{attitudeData.trueHeading:N1},{attitudeData.pitch:N1},{attitudeData.roll:N1},0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0";
+            string dataString = $"XATTPrepar3D,{attitudeData.trueHeading:F1},{attitudeData.pitch:F1},{attitudeData.roll:F1},0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0";
             SendData(dataString);
         }
 
