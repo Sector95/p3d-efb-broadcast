@@ -59,5 +59,44 @@ namespace P3DEFBBroadcast.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gps_off {
+            get {
+                object obj = ResourceManager.GetObject("gps_off", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gps_on {
+            get {
+                object obj = ResourceManager.GetObject("gps_on", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Icons made by Freepik and Roundicons from www.flaticon.com..
+        /// </summary>
+        internal static string iconAttributions {
+            get {
+                return ResourceManager.GetString("iconAttributions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap info_small {
+            get {
+                object obj = ResourceManager.GetObject("info_small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

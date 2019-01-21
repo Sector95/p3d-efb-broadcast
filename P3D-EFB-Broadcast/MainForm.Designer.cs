@@ -29,40 +29,52 @@ namespace P3DEFBBroadcast
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.connectButton = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.statusPicture = new System.Windows.Forms.PictureBox();
+            this.statusText = new System.Windows.Forms.Label();
+            this.infoButton = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.statusPicture)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.infoButton)).BeginInit();
             this.SuspendLayout();
             // 
-            // connectButton
+            // statusPicture
             // 
-            this.connectButton.BackColor = System.Drawing.SystemColors.Control;
-            this.connectButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.connectButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.connectButton.Location = new System.Drawing.Point(11, 11);
-            this.connectButton.Margin = new System.Windows.Forms.Padding(2);
-            this.connectButton.Name = "connectButton";
-            this.connectButton.Size = new System.Drawing.Size(511, 36);
-            this.connectButton.TabIndex = 2;
-            this.connectButton.Text = "Connect";
-            this.connectButton.UseVisualStyleBackColor = false;
-            this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+            this.statusPicture.Image = global::P3DEFBBroadcast.Properties.Resources.gps_off;
+            this.statusPicture.Location = new System.Drawing.Point(12, 12);
+            this.statusPicture.Name = "statusPicture";
+            this.statusPicture.Size = new System.Drawing.Size(128, 128);
+            this.statusPicture.TabIndex = 4;
+            this.statusPicture.TabStop = false;
             // 
-            // label1
+            // statusText
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 58);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(219, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Icon made by Freepik from www.flaticon.com";
+            this.statusText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.statusText.AutoSize = true;
+            this.statusText.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.statusText.Location = new System.Drawing.Point(5, 157);
+            this.statusText.Name = "statusText";
+            this.statusText.Size = new System.Drawing.Size(70, 13);
+            this.statusText.TabIndex = 5;
+            this.statusText.Text = "Connecting...";
+            // 
+            // infoButton
+            // 
+            this.infoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.infoButton.Image = global::P3DEFBBroadcast.Properties.Resources.info_small;
+            this.infoButton.Location = new System.Drawing.Point(132, 154);
+            this.infoButton.Name = "infoButton";
+            this.infoButton.Size = new System.Drawing.Size(16, 16);
+            this.infoButton.TabIndex = 6;
+            this.infoButton.TabStop = false;
+            this.infoButton.Click += new System.EventHandler(this.InfoButton_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(533, 80);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.connectButton);
+            this.ClientSize = new System.Drawing.Size(154, 176);
+            this.Controls.Add(this.infoButton);
+            this.Controls.Add(this.statusText);
+            this.Controls.Add(this.statusPicture);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -72,14 +84,18 @@ namespace P3DEFBBroadcast
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "P3D EFB Broadcast";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.statusPicture)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.infoButton)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Button connectButton;
-        private System.Windows.Forms.Label label1;
+
+        private System.Windows.Forms.PictureBox statusPicture;
+        private System.Windows.Forms.Label statusText;
+        private System.Windows.Forms.PictureBox infoButton;
     }
 }
 

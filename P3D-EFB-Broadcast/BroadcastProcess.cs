@@ -84,7 +84,7 @@ namespace P3DEFBBroadcast
 
         public void OnExceptionHandler(uint exceptionNumber)
         {
-            
+            Console.WriteLine($"Exception: {exceptionNumber}");
         }
 
         private void OnRecieveAircraftData(SimConnectInterface.AircraftData aircraftData)
