@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -44,7 +45,13 @@ namespace P3DEFBBroadcast
 
         private void InfoButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(Properties.Resources.iconAttributions, "Information");
+            Assembly assembly = Assembly.GetExecutingAssembly();
+
+            string infoString = $"P3D EFB Broadcast\n" +
+                                $"v{AssemblyName.GetAssemblyName(assembly.Location).Version.ToString()}\n\n" +
+                                Properties.Resources.iconAttributions;
+
+            MessageBox.Show(infoString, "Information");
         }
 
         private void StartConnection()
