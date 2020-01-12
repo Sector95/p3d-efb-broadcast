@@ -61,7 +61,7 @@ namespace P3DEFBBroadcast
 
         public void BroadcastTrafficData(TrafficData trafficData)
         {
-            int airborneFlag = trafficData.airborne >= 1 ? 1 : 0;
+            int airborneFlag = trafficData.airborne >= 1 ? 0 : 1;
             string dataString = $"XTRAFFICPrepar3D,{trafficData.icaoAddress},{trafficData.latitude:F3},{trafficData.longitude:F3},{trafficData.altitude:F1},{trafficData.verticalSpeed:F1},{airborneFlag},{trafficData.groundTrack:F1},{trafficData.groundSpeed:F1},{trafficData.callsign}";
             SendData(dataString);
         }

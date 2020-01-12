@@ -46,6 +46,8 @@ namespace P3DEFBBroadcast
         {
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
             public string id;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
+            public string model;
             public double latitude;
             public double longitude;
             // feet
@@ -72,7 +74,7 @@ namespace P3DEFBBroadcast
         public delegate void OnDisconnect();
         public delegate void OnException(uint exception);
         public delegate void OnRecieveAircraftData(AircraftData data);
-        public delegate void OnRecieveTrafficData(TrafficData data);
+        public delegate void OnRecieveTrafficData(uint objectId, TrafficData data);
         public delegate void OnRecieveAttitudeData(AttitudeData data);
 
         public SimConnectInterface(OnConnect connectHandler, OnDisconnect disconnectHandler, OnException exceptionHandler)
@@ -115,7 +117,7 @@ namespace P3DEFBBroadcast
                     break;
 
                 case REQUESTS.TrafficRequest:
-                    foreach (TrafficData trafficData in data.dwData) { clientRecieveTrafficDataHandler(trafficData); }
+                    foreach (TrafficData trafficData in data.dwData) { clientRecieveTrafficDataHandler(data.dwObjectID, trafficData); }
                     break;
 
                 case REQUESTS.AttitudeRequest:
@@ -165,9 +167,10 @@ namespace P3DEFBBroadcast
 
             // Traffic Data
             simConnect.AddToDataDefinition(DEFINITIONS.TrafficData, "ATC ID", null, SIMCONNECT_DATATYPE.STRING256, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simConnect.AddToDataDefinition(DEFINITIONS.TrafficData, "ATC MODEL", null, SIMCONNECT_DATATYPE.STRING256, 0.0f, SimConnect.SIMCONNECT_UNUSED);
             simConnect.AddToDataDefinition(DEFINITIONS.TrafficData, "PLANE LATITUDE", "degrees", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simConnect.AddToDataDefinition(DEFINITIONS.TrafficData, "PLANE LATITUDE", "degrees", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simConnect.AddToDataDefinition(DEFINITIONS.TrafficData, "PLANE ALTITUDE", "meters", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simConnect.AddToDataDefinition(DEFINITIONS.TrafficData, "PLANE LONGITUDE", "degrees", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simConnect.AddToDataDefinition(DEFINITIONS.TrafficData, "PLANE ALTITUDE", "feet", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
             simConnect.AddToDataDefinition(DEFINITIONS.TrafficData, "VELOCITY WORLD Y", "feet per second", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
             simConnect.AddToDataDefinition(DEFINITIONS.TrafficData, "SIM ON GROUND", "boolean", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
             simConnect.AddToDataDefinition(DEFINITIONS.TrafficData, "PLANE HEADING DEGREES TRUE", "radians", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);

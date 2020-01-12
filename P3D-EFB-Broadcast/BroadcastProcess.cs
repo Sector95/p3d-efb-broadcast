@@ -113,13 +113,13 @@ namespace P3DEFBBroadcast
             efbBroadcast.BroadcastAttitudeData(efbAttitudeData);
         }
 
-        private void OnRecieveTrafficData(SimConnectInterface.TrafficData trafficData)
+        private void OnRecieveTrafficData(uint objectId, SimConnectInterface.TrafficData trafficData)
         {
             if (trafficData.isUser == 1 || trafficData.onGround == 1) { return; }
 
             EFBBroadcast.TrafficData efbTrafficData = new EFBBroadcast.TrafficData
             {
-                icaoAddress = 123,
+                icaoAddress = (int)objectId,
                 longitude = trafficData.longitude,
                 latitude = trafficData.latitude,
                 altitude = trafficData.altitude,

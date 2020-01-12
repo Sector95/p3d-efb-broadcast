@@ -1,4 +1,5 @@
 using System;
+using System.Deployment.Application;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -45,10 +46,16 @@ namespace P3DEFBBroadcast
 
         private void InfoButton_Click(object sender, EventArgs e)
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            string version;
+            if (ApplicationDeployment.IsNetworkDeployed) {
+                version = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4);
+            }
+            else {
+                version = Application.ProductVersion;
+            }
 
-            string infoString = $"P3D EFB Broadcast\n" +
-                                $"v{AssemblyName.GetAssemblyName(assembly.Location).Version.ToString()}\n\n" +
+            string infoString = $"{Application.ProductName}\n" +
+                                $"v{version}\n\n" +
                                 Properties.Resources.iconAttributions;
 
             MessageBox.Show(infoString, "Information");
